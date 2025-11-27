@@ -1,1 +1,75 @@
 1. npm create vite@latest + repo de GIT
+
+2. ARBOL DE COMPONENTES
+App --> App.jsx ->*******PROVIDER DE CONTEXT*******
+    Header -->  
+        Nav--->  (links rutas)
+           ->(/)Home - SearchContainer
+           ->(/new) - PokemonForm
+           -> (/pokemon/:id) - PokemonCard
+
+    Main   --> Main.jsx
+        SearchContainer.jsx -->(/) contiene: Search PokemoList/PokemonCard
+            Search --> formulario de búsqueda *CONSUMIDOR*(consumirá este contexto para leer la lista de pokemon creados)
+            PokemoList-->renderiza pokemons buscados
+                -> PokemonCard--> renderiza en detalle un pokemon
+        PokemonForm.jsx --> (/new)formulario para añadir un pokemon *CONSUMIDOR*(para añadir poke al sistema) ---comunican por context(PokemonForm-Search)
+        PokemonDetail.jsx (/pokemon/:id) -> necesario importar useParams/ useLocation
+    Footer --> Main.jsx <footer>
+
+
+
+*? El estado con el listado de Pokemon dados de alta debe vivir en App y pasarse a cada sección que lo necesite a través de Context como proveedor.
+CONTEXT
+    PokemonForm  → añade pokemons nuevos (llama a addPokemons())
+    Search       → debe poder leer esos pokemons añadidos (lee createdPokemons())
+    App          → Guarda el estado global y lo distribuye
+
+    Tiene que guardar:
+    1. Lista de pokemons creados por el usuario: createdPokemons: []
+    2. Función para añadir nuevos pokemons: addPokemon: (newPokemon) => {}
+
+*USAR LOCAL STORAGE
+*DEBOUNCE
+
+
+
+
+                      ┌──────────────────────────┐
+                      │          App.jsx          │
+                      │  (PokemonProvider aquí)   │
+                      └──────────────┬───────────┘
+                                     │
+                                     │  Context Value:
+                                     │  { createdPokemons, addPokemon }
+                                     ▼
+                    ┌────────────────────────────────────┐
+                    │     PokemonContext.Provider        │
+                    └──────────────┬─────────────────────┘
+                                   │
+                 ┌─────────────────┴──────────────────┐
+                 │                                    │
+                 ▼                                    ▼
+     ┌──────────────────────┐                ┌───────────────────────┐
+     │     Search.jsx       │                │    PokemonForm.jsx     │
+     │      (Consumer)      │                │       (Consumer)        │
+     └───────────┬──────────┘                └───────────┬────────────┘
+                 │                                       │
+                 │ lee: createdPokemons                  │ usa: addPokemon()
+                 │                                       │
+                 ▼                                       ▼
+   ┌──────────────────────────┐             ┌──────────────────────────┐
+   │  Incluye pokemons creados│             │    Añade nuevos pokemons │
+   │  en la lógica de búsqueda│             │    al contexto global     │
+   └──────────────────────────┘             └──────────────────────────┘
+
+INSTALAR
+npm install create-react-component-folder --save-dev
+npm i uuid
+npm i normalize.css
+npm i react-router-dom
+npm i axios
+
+
+
+npx crcf src/components/Main/PokemonDetail -j  --notest -f
