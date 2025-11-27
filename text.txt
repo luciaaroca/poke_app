@@ -10,7 +10,7 @@ App --> App.jsx ->*******PROVIDER DE CONTEXT*******
 
     Main   --> Main.jsx
         SearchContainer.jsx -->(/) contiene: Search PokemoList/PokemonCard
-            Search --> formulario de búsqueda *CONSUMIDOR*(consumirá este contexto para leer la lista de pokemon creados)
+            Search --> formulario de búsqueda *CONSUMIDOR*(consumirá este contexto para leer la lista de pokemon creados) -> llamada API
             PokemoList-->renderiza pokemons buscados
                 -> PokemonCard--> renderiza en detalle un pokemon
         PokemonForm.jsx --> (/new)formulario para añadir un pokemon *CONSUMIDOR*(para añadir poke al sistema) ---comunican por context(PokemonForm-Search)

@@ -1,13 +1,15 @@
 import React,{useState} from "react";
+//<Search />: recibe setValue como prop, para actualizar el estado value cuando el usuario escribe y envía.
 
-const Search = ({setValue}) => {
-  //ESTADI
-  const [input, setInput] = useState("");//Estado del input (en principio est´á vacío)
+const Search = ({setValue}) => { //prop del Componente Padre (valor del input)
+  //ESTADO
+  const [input, setInput] = useState("");//Estado del input (en principio está vacío)
   
   const handleSubmit = (e) => {
       e.preventDefault();
       if (input.trim() !== "") {
         setValue(input); // Actualizamos el estado en SearchContainer
+        setInput("");
       }
     };
   return<section>
