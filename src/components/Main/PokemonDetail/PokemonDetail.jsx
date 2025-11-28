@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import { fetchPokemonById } from "../../../services/pokemonService";
 import "./PokemonDetail.css"
 
 //RUTAS
@@ -9,7 +11,7 @@ import "./PokemonDetail.css"
 
 const PokemonDetail = () => {
   const { id } = useParams(); // params
-  const location = useLocation(); // URL
+  
 
   //ESTADOS
   const [pokemonDetail, setPokemonDetail] = useState(null);
@@ -19,23 +21,42 @@ const PokemonDetail = () => {
   
 
   //DATOS DE LA API -> useEffect()
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const url = id
-          ? `https://pokeapi.co/api/v2/pokemon/${id}`
-          : "Introduzca un id por params: https://pokeapi.co/api/v2/pokemon/5 ";
-        const response = await fetch(url);
-        const data = await response.json();
+
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     try {
+  //       const url = id
+  //         ? `https://pokeapi.co/api/v2/pokemon/${id}`
+  //         : "Introduzca un id por params: https://pokeapi.co/api/v2/pokemon/5 ";
+  //       const response = await fetch(url);
+  //       const data = await response.json();
         
+  //       setPokemonDetail(data);
+  //     } catch (error) {
+  //       console.error("Error fetching product data:", error);
+  //     }
+  //   };
+
+  //   fetchProduct();
+  // }, [id]); // detecta un cambio en params,query params 
+
+
+    useEffect(() => {
+    const fetchPokemon = async () => {
+   
+      try {
+        const data = await fetchPokemonById(id);
         setPokemonDetail(data);
+      
       } catch (error) {
-        console.error("Error fetching product data:", error);
+       console.error("Error fetching product data:", error);
       }
     };
 
-    fetchProduct();
-  }, [id]); // detecta un cambio en params,query params 
+    fetchPokemon();
+  }, [id]);
+
+  
 
   //FUNCIÓN DE RENDERIZADO
   const renderOnePokemon = () => {
