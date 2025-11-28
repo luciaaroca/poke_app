@@ -69,6 +69,7 @@ npm i uuid
 npm i normalize.css
 npm i react-router-dom
 npm i axios
+npm i sass
 
 
 

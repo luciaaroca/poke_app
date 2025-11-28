@@ -1,13 +1,18 @@
-import React from "react";
-import { useContext, useState} from 'react'
-import { PokemonContext } from '../../../context/PokemonContext'//CONTEXTO
+
+import React ,{ useContext, useState} from 'react'
+import { PokemonContext } from '../../../context/PokemonContext' //CONTEXTO
 import "./PokemonForm.css"
+
+//TIPOS DE POKEMONS
+const pokemonTypes = [
+  "normal", "fire", "water", "grass", "electric", "ice"
+];
 //CONSUMIDOR: consumirá este contexto para poder añadir un nuevo pokemon al sistema.
 const PokemonForm = () => {
   //Consumir el CONTEXTO
   const { updatePokemon } = useContext(PokemonContext);
-  //ESTADOS
-  const [newPokemon, setNewPokemon] = useState({ //FORMULARIO (estado inicial)
+  //ESTADO FORMULARIO
+  const [newPokemon, setNewPokemon] = useState({ 
             id: "",
             name: "",
             image: "",
@@ -15,7 +20,7 @@ const PokemonForm = () => {
             typeTwo:"",
           });
      
-    //Se ejecuta cada vez que el usuario escribe un input
+    //Se ejecuta cada vez que el usuario escribe un input -> a la lisra de newPokemon
     const handleChange = (e) => {
             setNewPokemon({
             ...newPokemon,
@@ -54,17 +59,21 @@ const PokemonForm = () => {
         <label>Photo (URL):</label>
         <input type="text" name="image" value={newPokemon.image} onChange={handleChange} required />
     
-        {/* <label>Type 1:</label>
-        <select name="typeOne" value={newPokemon.typeOne} onChange={handleChange}>
+         <label>Type 1:</label>
+        <select name="typeOne" value={newPokemon.typeOne} onChange={handleChange} required>
           <option value="">Select type</option>
-          {newPokemon.map(t => <option key={t} value={t}>{t}</option>)}
+          {pokemonTypes.map(t => (
+            <option key={t} value={t}>{t}</option>
+          ))}
         </select>
-      
+
         <label>Type 2:</label>
         <select name="typeTwo" value={newPokemon.typeTwo} onChange={handleChange}>
           <option value="">Select type</option>
-          {newPokemon.map(t => <option key={t} value={t}>{t}</option>)}
-        </select> */}
+          {pokemonTypes.map(t => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
        
       <button type="submit">ADD</button>
     </form>

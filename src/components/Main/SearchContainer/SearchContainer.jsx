@@ -1,5 +1,7 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
+
+import { PokemonContext } from "../../../context/PokemonContext";//CONTEXTO
 
 import PokemonList from "./PokemoList/PokemoList" //Importamos Componente: PokemonList(renderizado)
 import Search from "./Search/Search" //Importamos Componente: Search: input + botón
@@ -12,24 +14,32 @@ const SearchContainer = () => {
   //ESTADOS
   const [value, setValue] = useState(""); //Almacena el texto que escribe el usuario en el INPUT
   const [pokemons, setPokemons] = useState([]); //array de POKEMONS mostrados API
-
+  
+  //CONTEXTO
+  const { pokemonList } = useContext(PokemonContext);
   //LLAMADA A LA API
   //UseEffect:un hook que sirve para ejecutar código “secundario” o “efectos"----------
   useEffect(() => {
     if (!value) return; // No hacer la petición si no hay valor
     async function fetchData() {
+      let apiResult = [];
       try {
         const res = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/${value.toLowerCase()}`//introducimos el valor que se buscrá en el INPUT
         );
-        setPokemons([res.data]); //estado del array de pokemons con los datos de la api
+        apiResult = [res.data];//estado del array de pokemons con los datos de la api
       } catch (e) {
-        setPokemons([]); // No mostrar nada si hay error
+        apiResult = [];
+        console.log("Pokemon no encontrado") // No mostrar nada si hay error
       }
+      const localResult = pokemonList.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setPokemons([...localResult, ...apiResult]);
     }
 
     fetchData();//ejecutar función fetchData
-  }, [value]);//[value]-> solo ejecutar el efecto cuando value cambie
+  }, [value, pokemonList]);//[value]-> solo ejecutar el efecto cuando value cambie
     
 
  //RETURN

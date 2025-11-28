@@ -1,13 +1,13 @@
-import React,{useState, useContext} from "react";
+import React,{useState} from "react";
 //CONSUMIDOR: Search consumirá este contexto para leer la lista de pokemon creados y tenerlos en cuenta en la lógica de búsqueda
 //<Search />: recibe setValue como prop, para actualizar el estado value cuando el usuario escribe y envía.
-import { PokemonContext } from "../../../../context/PokemonContext";
+// import { PokemonContext } from "../../../../context/PokemonContext";
 
 const Search = ({setValue}) => { //prop del Componente Padre (valor del input)
   //ESTADO
   const [input, setInput] = useState("");//Estado del input (en principio está vacío)
-  //Consumir contexto
-  const { pokemonList } = useContext(PokemonContext);
+  //Consumir CONSTEXTO
+  // const { pokemonList } = useContext(PokemonContext);
   
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -26,7 +26,7 @@ const Search = ({setValue}) => { //prop del Componente Padre (valor del input)
             />
             <button type="submit">Buscar</button>
           </form>
-           <p>Total Pokémons creados: {pokemonList.length}</p>
+           {/* <p>Total Pokémons creados: {pokemonList.length}</p> */}
        </section>;
 };
 

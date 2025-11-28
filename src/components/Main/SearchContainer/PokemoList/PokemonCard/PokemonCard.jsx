@@ -3,9 +3,9 @@ import React from "react";
 const PokemonCard = ({pokemon}) => { //prop pokemon del contenedor Padre PokemonList
   const id = pokemon.id;
   const name = pokemon.name;
-  const image= pokemon.sprites.front_default;
-  const typeOne= pokemon.types[0].type.name;
-  const typeTwo= pokemon.types[1]?.type.name;
+  const image= pokemon.sprites?.front_default || pokemon.image;
+  const typeOne= pokemon.types?.[0]?.type.name || pokemon.typeOne;
+  const typeTwo= pokemon.types?.[1]?.type.name ||  pokemon.typeTwo;
 
   return <article>
     <h1>{name}</h1>
