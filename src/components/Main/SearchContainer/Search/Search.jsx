@@ -32,7 +32,7 @@ const Search = ({setValue}) => { //prop del Componente Padre (valor del input)
   //onSubmit={handleSubmit}
   return<section>
            <form >
-              <input
+              <input className="searchInput"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}

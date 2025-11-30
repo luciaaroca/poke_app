@@ -7,6 +7,7 @@ import PokemonDetail from './PokemonDetail/PokemonDetail'
 
 const Main = () => {
   return <main>
+    <h1 className="title">POKÉMON WEB</h1>
     <Routes>
       <Route path='/'element={<SearchContainer/>}/>
       <Route path='/new'element={<PokemonForm/>}/>

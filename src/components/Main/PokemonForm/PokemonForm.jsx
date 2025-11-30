@@ -43,7 +43,7 @@ const PokemonForm = () => {
 
       
     return <div>
-      <h1>Add your Pokemon!!</h1>
+      <h1>Create your Pokémon:</h1>
       <form className="addPokemon" onSubmit={handleSubmit}>
           <label>ID:</label>
           <input type="number" name="id" value={newPokemon.id} onChange={handleChange} required /> 

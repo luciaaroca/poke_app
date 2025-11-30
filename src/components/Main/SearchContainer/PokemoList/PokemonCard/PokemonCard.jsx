@@ -7,12 +7,12 @@ const PokemonCard = ({pokemon}) => { //prop pokemon del contenedor Padre Pokemon
   const typeOne= pokemon.types?.[0]?.type.name || pokemon.typeOne;
   const typeTwo= pokemon.types?.[1]?.type.name ||  pokemon.typeTwo;
 
-  return <article>
-    <h1>{name}</h1>
-    <p>{id}</p>
+  return <article className="pokemonCard">
+    <h2 className="pokemonName">{name}</h2>
+    <p><b>ID:</b>{id}</p>
     <img src={image}></img>
-    <p>{typeOne}</p>
-    <p>{typeTwo}</p>
+    <p><b>Type One:</b>{typeOne}</p>
+    <p><b>Type Two:</b>{typeTwo}</p>
   </article>;
 };
 

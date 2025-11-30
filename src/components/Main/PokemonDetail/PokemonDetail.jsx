@@ -47,21 +47,23 @@ const PokemonDetail = () => {
   const renderOnePokemon = () => {
     if (!pokemonDetail) return "No se ha encontrado este pokemon";
     return (
-        <>
-        <h1>Pokemon Detail</h1>
-        <h2>Name: {pokemonDetail.name}</h2>
+      <div className="pokemonDetail">
+        
+        {/* <h1>POKEMON DETAIL</h1> */}
+        
+        <h2 className="pokemonName"> {pokemonDetail.name}</h2>
         <img src={pokemonDetail.sprites.front_default}></img>
         <p><b>ID:</b> {pokemonDetail.id}</p>
         <p><b>Abilities:</b> {pokemonDetail.abilities[0].ability.name} / {pokemonDetail.abilities[1].ability.name}</p>
         <p><b>Base Experience:</b> {pokemonDetail.base_experience }</p>
-        <p><b>TypeOne:</b>{pokemonDetail.types[0].type.name}</p>
-        <p><b>TypeTwo:</b> {pokemonDetail.types[1]?.type.name}</p>
+        <p className="type"><b>TypeOne: </b>{pokemonDetail.types[0].type.name}</p>
+        <p className="type"><b>TypeTwo: </b> {pokemonDetail.types[1]?.type.name}</p>
         <p><b>Height:</b>{pokemonDetail.height}</p>
         <p><b>Moves: </b>{pokemonDetail.moves[0]?.move.name}</p>
         <button onClick={playCryLatest}>Escuchar Cry</button>
         
        
-      </>
+      </div>
     )
   }
   return <div>
