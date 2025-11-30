@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 
+//CONSUMIDOR: Va a leer los datos de APP.JSX DE POKEMONLIST (pokemons creados y actualizados en el formulario)
 import { PokemonContext } from "../../../context/PokemonContext";//CONTEXTO
 
 import PokemonList from "./PokemoList/PokemoList" //Importamos Componente: PokemonList(renderizado)
@@ -13,33 +14,44 @@ import Search from "./Search/Search" //Importamos Componente: Search: input + bo
 const SearchContainer = () => {
   //ESTADOS
   const [value, setValue] = useState(""); //Almacena el texto que escribe el usuario en el INPUT
-  const [pokemons, setPokemons] = useState([]); //array de POKEMONS mostrados API
+  const [pokemons, setPokemons] = useState([]); //array de POKEMONS mostrados API/listalocal
   
   //CONTEXTO
   const { pokemonList } = useContext(PokemonContext);
-  //LLAMADA A LA API
+
+  //LLAMADA A LA API y LISTA LOCAL
   //UseEffect:un hook que sirve para ejecutar código “secundario” o “efectos"----------
   useEffect(() => {
-    if (!value) return; // No hacer la petición si no hay valor
+    if (!value.trim()) return; // No hacer la petición si no hay valor input
+
+    //POKEMONLIST PROVEEDOR -> APP.JSX
+    //Comprobar si exite en la lista LOCAL el pokemon
+    const existsInLocal = pokemonList.some( //.some()->comprobar si alguno de los pokemons de nuestra pokemonList local sea === al buscado en el input
+      (pokemon) => pokemon.name.toLowerCase().includes(value.toLowerCase())
+    );
+    if(existsInLocal){//Mostramos los que coinciden con local
+       const localFiltered = pokemonList.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setPokemons(localFiltered);// Actualiza el estado pokemons, que es el array que tú mandas al componente <PokemonList />.
+      return;
+    }
+    //Lamamos a la API
     async function fetchData() {
-      let apiResult = [];
+      
       try {
         const res = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/${value.toLowerCase()}`//introducimos el valor que se buscrá en el INPUT
         );
-        apiResult = [res.data];//estado del array de pokemons con los datos de la api
+        const apiResult = [res.data];//estado del array de pokemons con los datos de la API
+        setPokemons([ ...apiResult]); //actualizamos el estado de pokemons con el array de 
       } catch (e) {
-        apiResult = [];
+        setPokemons([]);
         console.log("Pokemon no encontrado") // No mostrar nada si hay error
       }
-      const localResult = pokemonList.filter(pokemon =>
-        pokemon.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setPokemons([...localResult, ...apiResult]);
     }
-
     fetchData();//ejecutar función fetchData
-  }, [value, pokemonList]);//[value]-> solo ejecutar el efecto cuando value cambie
+  }, [value, pokemonList]);//[value /pokemonList]-> solo ejecutar el efecto cuando value cambie
     
 
  //RETURN

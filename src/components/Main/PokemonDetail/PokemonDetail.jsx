@@ -8,7 +8,6 @@ import "./PokemonDetail.css"
 //https://pokeapi.co/api/v2/pokemon/3
 //https://pokeapi.co/api/v2/pokemon/5
 
-
 const PokemonDetail = () => {
   const { id } = useParams(); // params
   
@@ -16,29 +15,6 @@ const PokemonDetail = () => {
   //ESTADOS
   const [pokemonDetail, setPokemonDetail] = useState(null);
 
-  //QUERY PARAMS
-  
-  
-
-  //DATOS DE LA API -> useEffect()
-
-  // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     try {
-  //       const url = id
-  //         ? `https://pokeapi.co/api/v2/pokemon/${id}`
-  //         : "Introduzca un id por params: https://pokeapi.co/api/v2/pokemon/5 ";
-  //       const response = await fetch(url);
-  //       const data = await response.json();
-        
-  //       setPokemonDetail(data);
-  //     } catch (error) {
-  //       console.error("Error fetching product data:", error);
-  //     }
-  //   };
-
-  //   fetchProduct();
-  // }, [id]); // detecta un cambio en params,query params 
 
 
     useEffect(() => {
@@ -56,6 +32,15 @@ const PokemonDetail = () => {
     fetchPokemon();
   }, [id]);
 
+  //Para poder escuchar sus sonidos
+  const playCryLatest = () => {
+  if (pokemonDetail?.cries?.latest) {
+    const audio = new Audio(pokemonDetail.cries.latest);
+    audio.play().catch(err => console.log("Audio no reproducido", err));
+    }
+  };
+    
+
   
 
   //FUNCIÓN DE RENDERIZADO
@@ -71,6 +56,10 @@ const PokemonDetail = () => {
         <p><b>Base Experience:</b> {pokemonDetail.base_experience }</p>
         <p><b>TypeOne:</b>{pokemonDetail.types[0].type.name}</p>
         <p><b>TypeTwo:</b> {pokemonDetail.types[1]?.type.name}</p>
+        <p><b>Height:</b>{pokemonDetail.height}</p>
+        <p><b>Moves: </b>{pokemonDetail.moves[0]?.move.name}</p>
+        <button onClick={playCryLatest}>Escuchar Cry</button>
+        
        
       </>
     )

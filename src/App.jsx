@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { PokemonContext } from './context/PokemonContext.js' //PROVEEDOR DE CONTEXTO
 
@@ -8,19 +8,34 @@ import Main from './components/Main/Main.jsx'
 import Footer from './components/Footer/Footer.jsx'
 function App() {
 
-  //Proveer este estado a los compomentes consumidores -> Lista pokemons
-  //Añadimos a traves de PokemonForm
+  //Proveer este ESTADO a los compomentes consumidores ->  LISTA POKEMONS
+  //Añadimos a traves de PokemonForm (CONSUMIDOR)
+  // Vamos a intrudcirlo lógica de búsqueda de SearchContainer (CONSUMIDOR)
   const [pokemonList, setPokemonList] = useState([]);
 
-  
-  const updatePokemon  = (newPokemon) => { //-> actualiza la lista de pokemons con el nuevo pokemon del form
-    setPokemonList([...pokemonList, newPokemon]);
+  // Cargar desde LocalStorage al iniciar
+  useEffect(() => {
+    const storedPokemons = localStorage.getItem("myPokemonList");
+    if (storedPokemons) {
+      setPokemonList(JSON.parse(storedPokemons));
+    }
+  }, []);
+  //ACTUALIZAR LISTA POKEMONS-> newPokemon del PokemonForm + LocalStorage
+  // const updatePokemon  = (newPokemon) => { 
+  //   setPokemonList([...pokemonList, newPokemon]);
+  // };
+
+   const updatePokemon  = (newPokemon) => { 
+    const updatedList = [...pokemonList, newPokemon];
+    setPokemonList([updatedList]);
+    localStorage.setItem("myPokemonList", JSON.stringify(updatedList)); // Guardar en LocalStorag
   };
-  //Datos para alimentar al contexto que se va a PROVEER
+
+  //DATOS para alimentar al contexto que se va a PROVEER-> lista de pokemons + lista pokemons actualizada
   const pokemonData = {pokemonList, updatePokemon}
   return (
     <>
-     <PokemonContext.Provider value={pokemonData}> 
+     <PokemonContext.Provider value={pokemonData}>
         <BrowserRouter>
             <Header/>
             <Main/>
